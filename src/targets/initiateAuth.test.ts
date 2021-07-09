@@ -15,13 +15,13 @@ import {
   PasswordVerifierOutput,
   SmsMfaOutput,
 } from "./initiateAuth";
+import { mockUserPoolClient } from "../server/config.test";
 
 const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
 
 describe("InitiateAuth target", () => {
   let initiateAuth: InitiateAuthTarget;
   let mockCognitoClient: jest.Mocked<CognitoClient>;
-  let mockUserPoolClient: jest.Mocked<UserPoolClient>;
   let mockCodeDelivery: jest.Mock;
   let mockTriggers: jest.Mocked<Triggers>;
   let now: Date;
@@ -30,15 +30,6 @@ describe("InitiateAuth target", () => {
     now = new Date(2020, 1, 2, 3, 4, 5);
     advanceTo(now);
 
-    mockUserPoolClient = {
-      config: {
-        Id: "test",
-      },
-      createAppClient: jest.fn(),
-      getUserByUsername: jest.fn(),
-      listUsers: jest.fn(),
-      saveUser: jest.fn(),
-    };
     mockCognitoClient = {
       getUserPool: jest.fn().mockResolvedValue(mockUserPoolClient),
       getUserPoolForClientId: jest.fn().mockResolvedValue(mockUserPoolClient),

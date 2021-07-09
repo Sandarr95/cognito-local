@@ -3,11 +3,11 @@ import { UserNotFoundError } from "../errors";
 import { CognitoClient, UserPoolClient } from "../services";
 import { Triggers } from "../services/triggers";
 import { ForgotPassword, ForgotPasswordTarget } from "./forgotPassword";
+import { mockUserPoolClient } from "../server/config.test";
 
 describe("ForgotPassword target", () => {
   let forgotPassword: ForgotPasswordTarget;
   let mockCognitoClient: jest.Mocked<CognitoClient>;
-  let mockUserPoolClient: jest.Mocked<UserPoolClient>;
   let mockCodeDelivery: jest.Mock;
   let mockTriggers: jest.Mocked<Triggers>;
   let now: Date;
@@ -16,15 +16,6 @@ describe("ForgotPassword target", () => {
     now = new Date(2020, 1, 2, 3, 4, 5);
     advanceTo(now);
 
-    mockUserPoolClient = {
-      config: {
-        Id: "test",
-      },
-      createAppClient: jest.fn(),
-      getUserByUsername: jest.fn(),
-      listUsers: jest.fn(),
-      saveUser: jest.fn(),
-    };
     mockCognitoClient = {
       getUserPool: jest.fn().mockResolvedValue(mockUserPoolClient),
       getUserPoolForClientId: jest.fn().mockResolvedValue(mockUserPoolClient),

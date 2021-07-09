@@ -3,28 +3,19 @@ import { CognitoClient } from "../cognitoClient";
 import { Lambda } from "../lambda";
 import { UserPoolClient } from "../userPoolClient";
 import { UserMigration, UserMigrationTrigger } from "./userMigration";
+import { mockUserPoolClient } from "../../server/config.test";
 
 const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
 
 describe("UserMigration trigger", () => {
   let mockLambda: jest.Mocked<Lambda>;
   let mockCognitoClient: jest.Mocked<CognitoClient>;
-  let mockUserPoolClient: jest.Mocked<UserPoolClient>;
   let userMigration: UserMigrationTrigger;
 
   beforeEach(() => {
     mockLambda = {
       enabled: jest.fn(),
       invoke: jest.fn(),
-    };
-    mockUserPoolClient = {
-      config: {
-        Id: "test",
-      },
-      createAppClient: jest.fn(),
-      getUserByUsername: jest.fn(),
-      listUsers: jest.fn(),
-      saveUser: jest.fn(),
     };
     mockCognitoClient = {
       getUserPool: jest.fn().mockResolvedValue(mockUserPoolClient),

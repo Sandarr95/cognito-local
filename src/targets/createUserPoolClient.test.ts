@@ -6,11 +6,11 @@ import {
   CreateUserPoolClient,
   CreateUserPoolClientTarget,
 } from "./createUserPoolClient";
+import { mockUserPoolClient } from "../server/config.test";
 
 describe("CreateUserPoolClient target", () => {
   let createUserPoolClient: CreateUserPoolClientTarget;
   let mockCognitoClient: jest.Mocked<CognitoClient>;
-  let mockUserPoolClient: jest.Mocked<UserPoolClient>;
   let mockCodeDelivery: jest.Mock;
   let mockTriggers: jest.Mocked<Triggers>;
   let now: Date;
@@ -19,15 +19,6 @@ describe("CreateUserPoolClient target", () => {
     now = new Date(2020, 1, 2, 3, 4, 5);
     advanceTo(now);
 
-    mockUserPoolClient = {
-      config: {
-        Id: "test",
-      },
-      createAppClient: jest.fn(),
-      getUserByUsername: jest.fn(),
-      listUsers: jest.fn(),
-      saveUser: jest.fn(),
-    };
     mockCognitoClient = {
       getUserPool: jest.fn().mockResolvedValue(mockUserPoolClient),
       getUserPoolForClientId: jest.fn().mockResolvedValue(mockUserPoolClient),

@@ -2,26 +2,17 @@ import { Lambda } from "../lambda";
 import { UserPoolClient } from "../userPoolClient";
 import { PostConfirmation, PostConfirmationTrigger } from "./postConfirmation";
 import { CognitoClient } from "../cognitoClient";
+import { mockUserPoolClient } from "../../server/config.test";
 
 describe("PostConfirmation trigger", () => {
   let mockLambda: jest.Mocked<Lambda>;
   let mockCognitoClient: jest.Mocked<CognitoClient>;
-  let mockUserPoolClient: jest.Mocked<UserPoolClient>;
   let postConfirmation: PostConfirmationTrigger;
 
   beforeEach(() => {
     mockLambda = {
       enabled: jest.fn(),
       invoke: jest.fn(),
-    };
-    mockUserPoolClient = {
-      config: {
-        Id: "test",
-      },
-      createAppClient: jest.fn(),
-      getUserByUsername: jest.fn(),
-      listUsers: jest.fn(),
-      saveUser: jest.fn(),
     };
     mockCognitoClient = {
       getUserPool: jest.fn().mockResolvedValue(mockUserPoolClient),
