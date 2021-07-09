@@ -61,6 +61,13 @@ export interface User {
 
 type UsernameAttribute = "email" | "phone_number";
 
+export interface Group {
+  Name: string;
+  Description?: string;
+  Precedence?: number;
+  RoleArn?: string;
+}
+
 export interface UserPool {
   Id: string;
   UsernameAttributes?: UsernameAttribute[];
@@ -73,6 +80,8 @@ export interface UserPoolClient {
   getUserByUsername(username: string): Promise<User | null>;
   listUsers(): Promise<readonly User[]>;
   saveUser(user: User): Promise<void>;
+  listGroups(): Promise<readonly Group[]>;
+  saveGroup(group: Group): Promise<void>;
 }
 
 export type CreateUserPoolClient = (
@@ -173,6 +182,18 @@ export const createUserPoolClient = async (
           Attributes: attributes,
         });
       }
+    },
+    async listGroups(): Promise<readonly Group[]> {
+      log.debug("listGroups");
+      const groups = await dataStore.get<Record<string, Group>>("Groups", {});
+
+      return Object.values(groups);
+    },
+
+    async saveGroup(group) {
+      log.debug("saveGroup", group);
+
+      await dataStore.setValue<Group>({ ...group }, ["Groups", group.Name]);
     },
   };
 };

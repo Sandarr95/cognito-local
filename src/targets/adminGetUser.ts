@@ -9,6 +9,7 @@ interface Input {
 interface Output {
   UserStatus: string;
   UserAttributes: any;
+  Enabled?: boolean;
 }
 
 export type AdminGetUserTarget = (body: Input) => Promise<Output | null>;
@@ -25,5 +26,6 @@ export const AdminGetUser = ({
   return {
     UserStatus: user.UserStatus,
     UserAttributes: user.Attributes,
+    Enabled: user.Enabled,
   };
 };

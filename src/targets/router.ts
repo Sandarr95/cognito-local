@@ -15,6 +15,8 @@ import { AdminGetUser } from "./adminGetUser";
 import { AdminDeleteUser } from "./adminDeleteUser";
 import { AdminConfirmSignUp } from "./adminConfirmSignUp";
 import { AdminUpdateUserAttributes } from "./adminUpdateUserAttributes";
+import { CreateGroup } from "./createGroup";
+import { ListGroups } from "./listGroups";
 
 export const Targets = {
   ConfirmForgotPassword,
@@ -32,6 +34,8 @@ export const Targets = {
   AdminDeleteUser,
   AdminConfirmSignUp,
   AdminUpdateUserAttributes,
+  CreateGroup,
+  ListGroups,
 };
 
 type TargetName = keyof typeof Targets;
